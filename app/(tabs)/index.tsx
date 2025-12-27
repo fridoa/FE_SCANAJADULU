@@ -1,98 +1,67 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
-
+import { useRouter } from "expo-router";
+import { Package, ShoppingCart, Store } from "lucide-react-native";
+import React from "react";
+import { StatusBar, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const router = useRouter();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const todayOmzet = 1250000;
+  const totalTransactions = 45;
+
+  return (
+    <SafeAreaView className="flex-1 bg-slate-50">
+      <StatusBar barStyle="dark-content" backgroundColor="#F8FAFC" />
+
+      <View className="px-6 pt-6 pb-6 bg-white border-b border-slate-100">
+        <View className="flex-row items-center justify-between mb-4">
+          <View>
+            <Text className="text-sm font-medium text-slate-500">Selamat Bertugas,</Text>
+            <Text className="text-2xl font-bold text-slate-800">Kasir Utama</Text>
+          </View>
+
+          <View className="items-center justify-center w-10 h-10 bg-blue-100 border border-blue-200 rounded-full">
+            <Store size={20} color="#2563EB" />
+          </View>
+        </View>
+
+        <View className="flex-row items-center justify-between p-4 shadow-sm bg-slate-900 rounded-2xl">
+          <View>
+            <Text className="mb-1 text-xs text-slate-400">Omzet Hari Ini</Text>
+            <Text className="text-xl font-bold text-white">Rp {todayOmzet.toLocaleString("id-ID")}</Text>
+          </View>
+          <View className="h-8 w-[1px] bg-slate-700 mx-2" />
+          <View>
+            <Text className="mb-1 text-xs text-slate-400">Transaksi</Text>
+            <Text className="text-xl font-bold text-white">{totalTransactions}</Text>
+          </View>
+        </View>
+      </View>
+
+      <View className="p-6">
+        <Text className="mb-4 text-lg font-bold text-slate-800">Menu Utama</Text>
+        <View className="flex-row flex-wrap justify-between">
+          <TouchableOpacity onPress={() => router.push("/cashier")} className="w-[48%] bg-blue-600 h-44 rounded-3xl p-5 justify-between shadow-lg shadow-blue-200 mb-4 active:scale-95">
+            <View className="items-center justify-center w-12 h-12 rounded-full bg-white/20">
+              <ShoppingCart size={24} color="#FFFFFF" />
+            </View>
+            <View>
+              <Text className="text-xl font-bold text-white">Kasir</Text>
+              <Text className="mt-1 text-xs text-blue-100">Buat transaksi penjualan baru</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push("/product")} className="w-[48%] bg-white h-44 rounded-3xl p-5 justify-between shadow-sm border border-slate-100 mb-4 active:scale-95">
+            <View className="items-center justify-center w-12 h-12 bg-orange-100 rounded-full">
+              <Package size={24} color="#F97316" />
+            </View>
+            <View>
+              <Text className="text-xl font-bold text-slate-800">Produk</Text>
+              <Text className="mt-1 text-xs text-slate-400">Stok & Harga Barang</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
