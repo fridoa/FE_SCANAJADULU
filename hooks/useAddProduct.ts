@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-native";
 import * as yup from "yup";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const productSchema = yup.object().shape({
   name: yup.string().required("Nama produk wajib diisi"),
@@ -59,11 +60,13 @@ export const useAddProduct = () => {
       mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.5,
+      quality: 1,
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      const manipResult = await ImageManipulator.manipulateAsync(result.assets[0].uri, [{ resize: { width: 800 } }], { compress: 0.5, format: ImageManipulator.SaveFormat.JPEG });
+
+      setSelectedImage(manipResult.uri);
     }
   };
 

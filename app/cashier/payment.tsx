@@ -131,7 +131,7 @@ export default function PaymentScreen() {
 
       <Modal visible={showSuccessAnim} transparent={false} animationType="fade" statusBarTranslucent={true}>
         <View className="items-center justify-center flex-1 bg-white">
-          <LottieView ref={animation} source={require("@/assets/animations/Success Payment.json")} autoPlay loop={false} style={{ width: 300, height: 300 }} resizeMode="contain" />
+          <LottieView ref={animation} source={require("@/assets/animations/SuccessPayment.json")} autoPlay loop={false} style={{ width: 300, height: 300 }} resizeMode="contain" />
           <Text className="mt-8 text-2xl font-bold text-center text-gray-800">Pembayaran Berhasil!</Text>
           <Text className="mt-2 text-gray-500">Mohon tunggu sebentar...</Text>
         </View>
